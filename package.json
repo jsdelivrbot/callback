@@ -5,7 +5,7 @@
   "author": "Renat Berezovsky <renat0014@gmail.com>",
   "license": "ISC",
   "scripts": {
-    "gulp": "./node_modules/gulp/bin/gulp.js"
+    "gulp": "gulp"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",
@@ -29,6 +29,7 @@
     "postcss-assets": "^4.1.0",
     "postcss-cssnext": "^2.9.0",
     "postcss-import": "^8.2.0",
+    "postcss-short": "^3.0.0",
     "precss": "^1.4.0"
   },
   "dependencies": {},

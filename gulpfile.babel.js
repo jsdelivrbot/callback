@@ -15,6 +15,7 @@ import postcss from 'gulp-postcss'
 import imagesizecss from 'postcss-assets'
 import cssmin from 'cssnano'
 import cssnext from 'postcss-cssnext'
+import styleshort from 'postcss-short'
 import precss from 'precss'
 
 import browserSync from 'browser-sync';
@@ -38,7 +39,7 @@ const path = {
 };
 
 gulp.task('build-js', () => {
-  gulp.src(`${path.src.js}/js/*.js`)
+  gulp.src(`${path.src.js}*.js`)
       .pipe(newer(`${path.build.js}main.js`))
       .pipe(plumber())
       .pipe(sourcemaps.init())
@@ -59,6 +60,7 @@ gulp.task('build-style', () => {
     precss,
     imagesizecss,
     cssnext,
+    styleshort,
     cssmin({ autoprefixer: false })
   ];
   gulp.src(`${path.src.style}*.css`)
