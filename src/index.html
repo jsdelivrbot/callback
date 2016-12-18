@@ -4,11 +4,30 @@
   <meta charset="UTF-8">
   <title>Callback</title>
   <link rel="stylesheet" href="css/style.min.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 </head>
 <body>
 <h1>Callback widget</h1>
-<button id="open">Open callback</button>
+<div class="cback">
+  <style>
+    .cback-circle {
+      background: #3CB868;
+      color: #3CB868;
+    }
+  </style>
+  <a href="" id="open">
+    <div class="cback-circle fn1"></div>
+    <div class="cback-circle fn2"></div>
+    <div class="cback-circle cback-circle--phone">
+      <i class='phone-icon'></i>
+      <span style="display:none">КНОПКА<br>СВЯЗИ</span>
+    </div>
+  </a>
+</div>
 <script src="js/main.js"></script>
+<script>
+  const myModal = new CallBack('#open');
+  myModal.init();
+  myModal.open();
+</script>
 </body>
 </html>

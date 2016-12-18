@@ -39,8 +39,215 @@ h1 {
     box-sizing: border-box;
     transform: translate(-50%,-50%);
   }
-  width:400px;
-  height: 250px;
-  background: #000;
-  margin:auto;
+  &-content {
+    min-width:400px;
+    min-height: 250px;
+    margin:auto;
+    background: #fff;
+    border: 1px solid #e4e5e7;
+    border-radius: 2px;
+    padding: 20px;
+    position: relative;
+    text-align: left;
+    animation: showModal 1s;
+    animation-fill-mode: both;
+  }
+}
+.form-group {
+  margin-bottom: 15px;
+  position: relative;
+}
+.control-label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.form-control {
+  border-color: #e4e5e7;
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  position: relative;
+  z-index: 2;
+  &.error {
+    border-color: red;
+  }
+  &.success {
+    border-color: green;
+  }
+}
+*:focus {
+  outline:none;
+}
+#phone {
+  padding-left: 44px;
+  letter-spacing: 2px;
+}
+.mask {
+  position: absolute;
+  bottom:6px;
+  left:12px;
+  right:12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  display: block;
+  z-index: 1;
+  letter-spacing: 2px;
+}
+.btn {
+  border-radius: 3px;
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  background-image: none;
+  margin-bottom: 10px;
+  &--green {
+    background-color: #62cb31;
+    border-color: #62cb31;
+    color: #FFFFFF;
+  }
+  &--red {
+    background-color: #cb0919;
+    border-color: #cb0919;
+    color: #FFFFFF;
+  }
+}
+
+@keyframes showModal {
+  0% {
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    transition-timing-function: ease-in;
+    opacity: 0;
+  }
+
+  40% {
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    transition-timing-function: ease-in;
+  }
+
+  60% {
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    opacity: 1;
+  }
+
+  80% {
+    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+  }
+
+  100% {
+    transform: perspective(400px);
+  }
+}
+
+.cback {
+  width: 160px;
+  height: 160px;
+  position: fixed;
+  bottom:20px;
+  left: 20px;
+  cursor: pointer;
+  &-circle {
+    width: 100%;
+    height: 100%;
+    border: 1px solid;
+    border-radius: 50%;
+    position: absolute;
+    top:0;
+    left: 0;
+    transform-origin: 50% 50%;
+    &--phone {
+      width: 50%;
+      height: 50%;
+      top:50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+    }
+    &.fn1 {
+      animation: pin 2.5s linear .4s infinite normal;
+    }
+    &.fn2 {
+      animation: pin 2s linear 0s infinite normal;
+      background: none;
+    }
+  }
+  &:hover {
+    .cback-circle--phone {
+      animation: hvr-phone 1.5s linear infinite normal;
+    }
+  }
+  .phone-icon {
+    width: 41px;
+    height: 41px;
+    background: url(http://brrenat.github.io/content/phone.png);
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    animation: phone-fn 2s infinite ease-in-out;
+  }
+}
+@keyframes phone-fn {
+  0% {
+    transform: translate(-50%,-50%) rotate(0deg) scale(1) skew(1deg)
+  }
+
+  10% {
+    transform: translate(-50%,-50%) rotate(-25deg) scale(1) skew(1deg)
+  }
+
+  20% {
+    transform: translate(-50%,-50%) rotate(25deg) scale(1) skew(1deg)
+  }
+
+  30% {
+    transform: translate(-50%,-50%) rotate(-25deg) scale(1) skew(1deg)
+  }
+
+  40% {
+    transform: translate(-50%,-50%) rotate(25deg) scale(1) skew(1deg)
+  }
+
+  100%,50% {
+    transform: translate(-50%,-50%) rotate(0deg) scale(1) skew(1deg)
+  }
+}
+@keyframes pin {
+  0% {
+    opacity: .6;
+    transform: scale(.5)
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1)
+  }
+}
+@keyframes hvr-phone {
+  0%, 100% {
+    transform: translate(-50%,-50%) scale(1);
+    box-shadow: inset 0 0 20px -14px rgba(0,0,0,.75);
+  }
+  80% {
+    transform: translate(-50%,-50%) scale(1.1);
+    box-shadow: inset 0 0 20px -4px rgba(0,0,0,.75);
+  }
 }
