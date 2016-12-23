@@ -6,26 +6,40 @@ const modal = `<div class="cb-bg"></div> \
                 <div class="cb-wrap"> \
                   <div class="cb-container"> \
                     <div class="cb-content"> \
+                      <div class="cb-logo"> \
+                        <img src="img/logo.png" alt=""> \
+                      </div> \
+                      <div class="cb-text"> \
+                        Закажите обратный звонок, <br/> \
+                        мы перезвоним Вам в ближайшее время! \
+                      </div> \
                       <div class="cb"> \
                         <form action="#" id="loginForm"> \
                           <div class="form-group"> \
-                            <label class="control-label" for="username">Ваше имя</label> \
                             <input type="text" placeholder="Ваше имя" title="Введите ваше имя" required="" value="" name="username" id="username" class="form-control"> \
                           </div> \
                           <div class="form-group"> \
-                            <label class="control-label" for="phone">Телефон</label> \
                             <input type="phone" title="Введите ваш номер" required="" value="" name="phone" id="phone" class="form-control"> \
                           </div> \
-                          <button class="btn btn--green">Отправить</button> \
+                          <button class="btn">Жду звонка</button> \
                         </form> \
                       </div> \
                     </div> \
                   </div> \
                </div>`;
-const modalClose = `<button id="close" class="btn btn--red">Close callback</button>`;
+const btn = `<div class="cback"> \
+              <a href="" id="open"> \
+                <div class="cback-circle fn1"></div> \
+                <div class="cback-circle fn2"></div> \
+                <div class="cback-circle cback-circle--phone"> \
+                  <i class='phone-icon'></i> \
+                  <span style="display:none">КНОПКА<br>СВЯЗИ</span> \
+                </div> \
+              </a> \
+            </div>`;
+const modalClose = `<button id="close" class="cb-close"><img src="img/close.png" alt=""></button>`;
 
-const CallBack = function(target) {
-  this.target = document.querySelector(target);
+const CallBack = function() {
   this.mask = `+ 7 (___) ___ - __ - __`;
 };
 
@@ -37,7 +51,7 @@ CallBack.prototype = {
     this.inputListener();
   },
   clickHandler: function() {
-    this.target.addEventListener('click', (e) => {
+    this.cbOpen.addEventListener('click', (e) => {
       this.open();
       e.preventDefault()
     });
@@ -47,6 +61,9 @@ CallBack.prototype = {
     });
   },
   render: function() {
+    this.cbOpen = document.createElement('div');
+    this.cbOpen.innerHTML = btn;
+    document.body.insertBefore(this.cbOpen, document.body.firstChild);
     this.cbBody = document.createElement('div');
     this.cbBody.innerHTML = modal;
     this.cbClose = document.createElement('div');
@@ -100,15 +117,12 @@ CallBack.prototype = {
         return data.shift();
       }).join('')
 
-    let reapplyMask = (data) => {
-      return applyMask(stripMask(data))
-    }
+    let reapplyMask = (data) => applyMask(stripMask(data))
 
     let smartfocus = (flag) => {
       let oldStart = field.selectionStart;
       let oldEnd = field.selectionEnd;
       field.value = reapplyMask(field.value);
-
       if (field.value.indexOf('_') >= 0 && flag) {
                 this.setCursor(field, field.value.indexOf('_'));
       } else if (!flag) {
@@ -119,26 +133,40 @@ CallBack.prototype = {
         field.selectionEnd = oldStart + 1;
       }
     }
-
     field.addEventListener('click', (e) => {
       if ( /\d/.test(e.target.value.charAt(field.selectionStart - 1)) ||  /\d/.test(e.target.value.charAt(field.selectionStart))) {
         smartfocus(false)
       } else {
         smartfocus(true)
       }
+      if (field.value.indexOf('_') < 0) {
+          e.target.classList.add('success')
+      } else {
+          e.target.classList.remove('success')
+      }
     });
     field.addEventListener('keydown', (e) => {
-      if (!(e.keyCode >= 48 && e.keyCode <= 57) && e.keyCode !== 8 && e.keyCode !== 46) {
+      if (!(e.keyCode >= 48 && e.keyCode <= 57) && e.keyCode !== 8 && e.keyCode !== 46 && !(e.keyCode >= 96 && e.keyCode <= 105) && !(e.keyCode >= 37 && e.keyCode <= 40)) {
         e.preventDefault()
+      }
+      if (field.value.indexOf('_') < 0) {
+          e.target.classList.add('success')
+      } else {
+          e.target.classList.remove('success')
       }
     });
     field.addEventListener('keyup', (e) => {
-      if (e.keyCode == 8) {
+      if (e.keyCode == 8 || (e.keyCode >= 37 && e.keyCode <= 40)) {
         smartfocus(false)
-      } else if (e.keyCode >= 48 && e.keyCode <= 57){
+      } else if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) {
         smartfocus(true)
       } else {
         e.preventDefault()
+      }
+      if (field.value.indexOf('_') < 0) {
+          e.target.classList.add('success')
+      } else {
+          e.target.classList.remove('success')
       }
     })
   }

@@ -4,28 +4,13 @@
   <meta charset="UTF-8">
   <title>Callback</title>
   <link rel="stylesheet" href="css/style.min.css">
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
 </head>
 <body>
 <h1>Callback widget</h1>
-<div class="cback">
-  <style>
-    .cback-circle {
-      background: #3CB868;
-      color: #3CB868;
-    }
-  </style>
-  <a href="" id="open">
-    <div class="cback-circle fn1"></div>
-    <div class="cback-circle fn2"></div>
-    <div class="cback-circle cback-circle--phone">
-      <i class='phone-icon'></i>
-      <span style="display:none">КНОПКА<br>СВЯЗИ</span>
-    </div>
-  </a>
-</div>
 <script src="js/main.js"></script>
 <script>
-  const myModal = new CallBack('#open');
+  const myModal = new CallBack();
   myModal.init();
   myModal.open();
 </script>
