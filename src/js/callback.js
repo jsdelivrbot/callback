@@ -2,46 +2,46 @@
  * Created by BRenat on 10.12.2016.
  */
 ;
-const modal = `<div class="cb-bg"></div> \
-                <div class="cb-wrap"> \
-                  <div class="cb-container"> \
-                    <div class="cb-content"> \
-                      <div class="cb-logo"> \
-                        <img src="img/logo.png" alt=""> \
-                      </div> \
-                      <div class="cb-text"> \
-                        Закажите обратный звонок, <br/> \
-                        мы перезвоним Вам в ближайшее время! \
-                      </div> \
-                      <div class="cb"> \
-                        <form action="#" id="loginForm"> \
-                          <div class="form-group"> \
-                            <input type="text" placeholder="Ваше имя" title="Введите ваше имя" required="" value="" name="username" id="username" class="form-control"> \
-                          </div> \
-                          <div class="form-group"> \
-                            <input type="phone" title="Введите ваш номер" required="" value="" name="phone" id="phone" class="form-control"> \
-                          </div> \
-                          <button class="btn">Жду звонка</button> \
-                        </form> \
-                      </div> \
-                    </div> \
-                  </div> \
-               </div>`;
-const btn = `<div class="cback"> \
-              <a href="" id="open"> \
-                <div class="cback-circle fn1"></div> \
-                <div class="cback-circle fn2"></div> \
-                <div class="cback-circle cback-circle--phone"> \
-                  <i class='phone-icon'></i> \
-                  <span style="display:none">КНОПКА<br>СВЯЗИ</span> \
-                </div> \
-              </a> \
-            </div>`;
-const modalClose = `<button id="close" class="cb-close"><img src="img/close.png" alt=""></button>`;
-
-const CallBack = function() {
-  this.mask = `+ 7 (___) ___ - __ - __`;
-};
+const CallBack = function(option) {
+  this.option = {};
+  this.option.mask = `+ 7 (___) ___ - __ - __`;
+  this.option.color = {
+      first : '#f49a00',
+      second : '#fab900',
+      phone : '#3CB868'
+  };
+  this.option.modalClassNames = {
+      bg : 'br-bg',
+      wrap : 'br-wrap',
+      container : 'br-container',
+      content : 'br-content',
+      form : 'br-form',
+      open : 'cback'
+  };
+  this.option.imgClose = 'img/close.png';
+  this.option.imgLogo = 'img/logo.png';
+  this.option.modalClose = `<button class="br-close"><img src=${this.option.imgClose} alt=""></button>`;
+  this.option.modalLogo = `<div class="br-logo"><img src=${this.option.imgLogo} alt=""></div>`;
+  this.option.modalText = `<div class="br-text">Закажите обратный звонок, <br/> мы перезвоним Вам в ближайшее время!</div>`;
+  this.option.modalForm = `<form action="#"> \
+                     <div class="br-form__group"> \
+                       <input type="text" placeholder="Ваше имя" title="Введите ваше имя" required="" value="" name="username" id="username" class="br-form__input"> \
+                     </div> \
+                     <div class="br-form__group"> \
+                       <input type="phone" title="Введите ваш номер" required="" value="" name="phone" id="phone" class="br-form__input"> \
+                     </div> \
+                    </form>`;
+  this.option.modalFormBtn = `<button class="br-form__btn">Жду звонка</button>`;
+  this.option.modalOpen = `<div class="cback-circle fn1"></div> \
+                    <div class="cback-circle fn2"></div> \
+                    <div class="cback-circle cback-circle--phone"> \
+                      <i class='phone-icon'></i> \
+                    </div>`
+;
+  this.option = Object.assign({}, this.option, option);
+  this.option.modalStyle = `.cback-circle {color: ${this.option.color.phone}; background: ${this.option.color.phone};} .br-form__btn {background: ${this.option.color.first}} .br-form__btn:hover {background: ${this.option.color.second}} `;
+  console.log(this.option.color.phone)
+}
 
 CallBack.prototype = {
   constructor: CallBack,
@@ -61,25 +61,53 @@ CallBack.prototype = {
     });
   },
   render: function() {
+    this.cbStyle = document.createElement('style');
+    this.cbStyle.innerHTML = this.option.modalStyle;
+    document.head.appendChild(this.cbStyle);
+
     this.cbOpen = document.createElement('div');
-    this.cbOpen.innerHTML = btn;
-    document.body.insertBefore(this.cbOpen, document.body.firstChild);
-    this.cbBody = document.createElement('div');
-    this.cbBody.innerHTML = modal;
+    this.cbOpen.classList.add(this.option.modalClassNames.open);
+    this.cbOpen.innerHTML = this.option.modalOpen;
+    document.body.appendChild(this.cbOpen);
+
+
+    this.cbForm = document.createElement('div');
+    this.cbForm.classList.add(this.option.modalClassNames.form);
+    this.cbForm.innerHTML = this.option.modalForm;
+
+    this.cbContent = document.createElement('div');
+    this.cbContent.classList.add(this.option.modalClassNames.content);
+    this.cbContent.innerHTML = this.option.modalLogo + this.option.modalText;
+    this.cbSend = document.createElement('div');
+    this.cbSend.innerHTML = this.option.modalFormBtn;
     this.cbClose = document.createElement('div');
-    this.cbClose.innerHTML = modalClose;
-    let content = this.cbBody.querySelector('.cb-content');
-    content.appendChild(this.cbClose);
+    this.cbClose.innerHTML = this.option.modalClose;
+    this.cbContent.appendChild(this.cbForm);
+    this.cbContent.appendChild(this.cbSend);
+    this.cbContent.appendChild(this.cbClose);
+
+    this.cbContainer = document.createElement('div');
+    this.cbContainer.classList.add(this.option.modalClassNames.container);
+    this.cbContainer.appendChild(this.cbContent);
+
+    this.cbBody = document.createElement('div');
+    this.cbBody.classList.add(this.option.modalClassNames.wrap);
+    this.cbBody.appendChild(this.cbContainer);
+
+    this.cbOverlay = document.createElement('div');
+    this.cbOverlay.classList.add(this.option.modalClassNames.bg);
   },
   inputListener: function() {
-    let inputPhone = this.cbBody.querySelector('#phone');
-    inputPhone.setAttribute('placeholder',this.mask);
-    this.applyDataMask(inputPhone, this.mask);
+    let inputPhone = this.cbForm.querySelector('#phone');
+    inputPhone.setAttribute('placeholder',this.option.mask);
+    this.applyDataMask(inputPhone, this.option.mask);
   },
   open: function() {
     document.body.insertBefore(this.cbBody, document.body.firstChild);
+    document.body.insertBefore(this.cbOverlay, document.body.firstChild);
   },
   close: function() {
+    this.cbOverlay.remove();
     this.cbBody.remove();
   },
   setCursor: function (elem, caretPos) {
