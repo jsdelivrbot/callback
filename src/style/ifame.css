@@ -1,0 +1,66 @@
+body {
+  font-family: 'PT Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.br {
+  &-logo {
+    text-align: center;
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+  &-text {
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 25px;
+  }
+  &-form__group {
+    margin-bottom: 15px;
+    position: relative;
+    text-align: center;
+  }
+  &-form__input {
+    display: block;
+    width: 100%;
+    max-width: 370px;
+    padding: 9px 12px 7px;
+    font-size: 25px;
+    line-height: 1.42857143;
+    color: #767676;
+    margin: 0 auto 20px;
+    background: #ffffff;
+    box-shadow: 0 0 4.8px 0.3px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc;
+    transition: all ease-in-out .15s;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    &.success {
+      border-color: green;
+    }
+    &#phone {
+      text-align: left;
+      letter-spacing:2px;
+    }
+  }
+  &-form__btn {
+    border-radius: 5px;
+    display: block;
+    padding: 14px 50px 13px;
+    font-size: 18px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    margin: 40px auto 10px;
+    color: #ffffff;
+    background: #3CB868;
+    border:none;
+    text-transform: uppercase;
+    background-size:100% 100%;
+    text-shadow: 0 0 4.8px rgba(0, 0, 0, 0.2);
+  }
+}
