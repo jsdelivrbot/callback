@@ -1,10 +1,10 @@
 /**
  * Created by BRenat on 06.01.2017.
  */
-HTMLElement.simpleMask = function(mask){
-  mask = mask.split('');
+HTMLInputElement.prototype.simpleMask = function(mask){
   let field = this;
-  field.setAttribute('placeholder',mask)
+  field.setAttribute('placeholder',mask);
+  mask = mask.split('');
   let stripMask = (maskedData) => {
     function isDigit(char) {
       return /\d/.test(char);
@@ -23,7 +23,7 @@ HTMLElement.simpleMask = function(mask){
     let oldEnd = field.selectionEnd;
     field.value = reapplyMask(field.value);
     if (field.value.indexOf('_') >= 0 && flag) {
-      this.setCursor(field, field.value.indexOf('_'));
+      setCursor(field, field.value.indexOf('_'));
     } else if (!flag) {
       field.selectionStart = oldStart + 1;
       field.selectionEnd = oldStart;
@@ -67,5 +67,20 @@ HTMLElement.simpleMask = function(mask){
     } else {
       e.target.classList.remove('success')
     }
-  })
+  });
+  let setCursor = (elem, caretPos) => {
+    if(elem.createTextRange) {
+      let range = elem.createTextRange();
+      range.move('character', caretPos);
+      range.select();
+    }
+    else {
+      if(elem.selectionStart) {
+        elem.focus();
+        elem.setSelectionRange(caretPos, caretPos);
+      }
+      else
+        elem.focus();
+    }
+  }
 }

@@ -3,12 +3,10 @@
 /**
  * Created by BRenat on 06.01.2017.
  */
-HTMLElement.simpleMask = function (mask) {
-  var _this = this;
-
-  mask = mask.split('');
+HTMLInputElement.prototype.simpleMask = function (mask) {
   var field = this;
   field.setAttribute('placeholder', mask);
+  mask = mask.split('');
   var stripMask = function stripMask(maskedData) {
     function isDigit(char) {
       return (/\d/.test(char)
@@ -31,7 +29,7 @@ HTMLElement.simpleMask = function (mask) {
     var oldEnd = field.selectionEnd;
     field.value = reapplyMask(field.value);
     if (field.value.indexOf('_') >= 0 && flag) {
-      _this.setCursor(field, field.value.indexOf('_'));
+      setCursor(field, field.value.indexOf('_'));
     } else if (!flag) {
       field.selectionStart = oldStart + 1;
       field.selectionEnd = oldStart;
@@ -76,4 +74,16 @@ HTMLElement.simpleMask = function (mask) {
       e.target.classList.remove('success');
     }
   });
+  var setCursor = function setCursor(elem, caretPos) {
+    if (elem.createTextRange) {
+      var range = elem.createTextRange();
+      range.move('character', caretPos);
+      range.select();
+    } else {
+      if (elem.selectionStart) {
+        elem.focus();
+        elem.setSelectionRange(caretPos, caretPos);
+      } else elem.focus();
+    }
+  };
 };
