@@ -47,7 +47,7 @@ gulp.task('build-js', () => {
         presets: ['es2015'],
         compact: false
       }))
-      .pipe(concat('main.js'))
+      // .pipe(concat('main.js'))
       .pipe(gulp.dest(path.build.js))
       .pipe(rename({suffix: '.min'}))
       .pipe(uglify())
