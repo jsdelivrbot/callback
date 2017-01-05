@@ -13,8 +13,8 @@ const defaults = {
   position : 'bottom:20px; left:20px;'
 }
 
-const loadStyle = '<link href="https://cdn.rawgit.com/BrRenat/callback/iframe/dist/css/ifame.min.css" rel="stylesheet">'
-const LoadScript = '<script src="https://cdn.rawgit.com/BrRenat/callback/iframe/dist/js/iframe.js"></script>'
+const loadStyle = '<link href="https://cdn.rawgit.com/BrRenat/callback/master/dist/css/ifame.min.css" rel="stylesheet">'
+const LoadScript = '<script src="https://cdn.rawgit.com/BrRenat/callback/master/dist/js/iframe.js"></script>'
 
 const iframeScript = `window.addEventListener("load", function(event) { 
 document.querySelector('#phone').simpleMask('+ 7 (___) ___ - __ - __');
