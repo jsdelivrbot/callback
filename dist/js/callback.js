@@ -9,7 +9,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 var defaults = {
   imgClose: 'img/close.png',
-  imgLogo: 'http://localhost:8080/img/logo.png',
+  imgLogo: 'img/logo.png',
   color: {
     first: '#f49a00',
     second: '#fab900',
@@ -21,13 +21,13 @@ var defaults = {
 
 var loadStyle = '<link href="https://cdn.rawgit.com/BrRenat/callback/master/dist/css/ifame.min.css" rel="stylesheet">';
 var LoadScript = '<script src="https://cdn.rawgit.com/BrRenat/callback/master/dist/js/iframe.js"></script>';
-
-var iframeScript = 'window.addEventListener("load", function(event) { \ndocument.querySelector(\'#phone\').simpleMask(\'+ 7 (___) ___ - __ - __\');\n});';
+var iframeScript = 'window.addEventListener("load", function(event) { \n                        document.querySelector(\'#phone\').simpleMask(mask);\n                        sendForm();\n                      });';
 
 var CallMe = function () {
   function CallMe(options) {
     _classCallCheck(this, CallMe);
 
+    this.name = 'br_' + Math.random().toString(36).substring(7);
     this.options = Object.assign({}, defaults, options);
     this.elements = {
       modalClassNames: {
@@ -41,8 +41,9 @@ var CallMe = function () {
       modalBody: '<div class="br-container"><div class="br-content"><iframe class="br-iframe" name="frameForm" id="frameForm" src="" allowfullscreen></iframe></div></div>',
       modalClose: '<button class="br-close"><img src=' + this.options.imgClose + ' alt=""></button>',
       modalOpen: '<div class="cback-circle fn1"></div><div class="cback-circle fn2"></div><div class="cback-circle cback-circle--phone"><i class=\'phone-icon\'></i></div>',
-      modalStyle: '.cback-circle {color: ' + this.options.color.phone + '; background: ' + this.options.color.phone + ';} .br-form__btn {background: ' + this.options.color.first + '} .br-form__btn:hover {background: ' + this.options.color.second + '}',
-      modalIframe: '<div class="br-logo">\n\t\t\t\t\t\t<img src=' + this.options.imgLogo + ' alt="">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="br-text">\u0417\u0430\u043A\u0430\u0436\u0438\u0442\u0435 \u043E\u0431\u0440\u0430\u0442\u043D\u044B\u0439 \u0437\u0432\u043E\u043D\u043E\u043A, <br> \u043C\u044B \u043F\u0435\u0440\u0435\u0437\u0432\u043E\u043D\u0438\u043C \u0412\u0430\u043C \u0432 \u0431\u043B\u0438\u0436\u0430\u0439\u0448\u0435\u0435 \u0432\u0440\u0435\u043C\u044F!</div>\n\t\t\t\t\t<div class="br-form">\n\t\t\t\t\t\t<form action="#">\n\t\t\t\t\t\t\t<div class="br-form__group">\n\t\t\t\t\t\t\t\t<input type="text" placeholder="\u0412\u0430\u0448\u0435 \u0438\u043C\u044F" title="\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0432\u0430\u0448\u0435 \u0438\u043C\u044F" required="" value="" name="username" id="username" class="br-form__input">\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="br-form__group">\n\t\t\t\t\t\t\t\t<input type="phone" title="\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0432\u0430\u0448 \u043D\u043E\u043C\u0435\u0440" required="" value="" name="phone" id="phone" class="br-form__input">\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</form>\n\t\t\t\t\t</div>\n\t\t\t\t\t<button class="br-form__btn">\u0416\u0434\u0443 \u0437\u0432\u043E\u043D\u043A\u0430</button>'
+      modalStyle: '#' + this.name + '.cback {' + this.options.position + '} #' + this.name + ' .cback-circle {color: ' + this.options.color.phone + '; background: ' + this.options.color.phone + ';}',
+      formStyle: '.br-form__btn {background: ' + this.options.color.first + '} .br-form__btn:hover {background: ' + this.options.color.second + '}',
+      modalIframe: '<div class="br-logo">\n\t\t\t\t\t\t<img src=' + this.options.imgLogo + ' alt="">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="br-text">\u0417\u0430\u043A\u0430\u0436\u0438\u0442\u0435 \u043E\u0431\u0440\u0430\u0442\u043D\u044B\u0439 \u0437\u0432\u043E\u043D\u043E\u043A, <br> \u043C\u044B \u043F\u0435\u0440\u0435\u0437\u0432\u043E\u043D\u0438\u043C \u0412\u0430\u043C \u0432 \u0431\u043B\u0438\u0436\u0430\u0439\u0448\u0435\u0435 \u0432\u0440\u0435\u043C\u044F!</div>\n\t\t\t\t\t<div class="br-form">\n\t\t\t\t\t\t<form action="#">\n\t\t\t\t\t\t\t<div class="br-form__group">\n\t\t\t\t\t\t\t\t<input type="text" placeholder="\u0412\u0430\u0448\u0435 \u0438\u043C\u044F" title="\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0432\u0430\u0448\u0435 \u0438\u043C\u044F" required="" value="" name="username" id="username" class="br-form__input">\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="br-form__group">\n\t\t\t\t\t\t\t\t<input type="phone" title="\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0432\u0430\u0448 \u043D\u043E\u043C\u0435\u0440" required="" value="" name="phone" id="phone" class="br-form__input">\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</form>\n\t\t\t\t\t</div>\n\t\t\t\t\t<button id="send" class="br-form__btn">\u0416\u0434\u0443 \u0437\u0432\u043E\u043D\u043A\u0430</button>'
     };
     this.init();
   }
@@ -52,7 +53,7 @@ var CallMe = function () {
     value: function init() {
       this.render();
       this.clickHandler();
-      // this.inputListener();
+      this.open();
     }
   }, {
     key: 'clickHandler',
@@ -76,6 +77,7 @@ var CallMe = function () {
       document.head.appendChild(this.cbStyle);
       this.cbOpen = document.createElement('div');
       this.cbOpen.classList.add(this.elements.modalClassNames.open);
+      this.cbOpen.id = this.name;
       this.cbOpen.innerHTML = this.elements.modalOpen;
       document.body.appendChild(this.cbOpen);
 
@@ -90,21 +92,19 @@ var CallMe = function () {
       this.cbClose.innerHTML = this.elements.modalClose;
       this.cbBody.querySelector('.br-content').appendChild(this.cbClose);
 
-      this.cbBody.querySelector('#frameForm').src = 'data:text/html;charset=utf-8,' + encodeURI('<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">' + loadStyle + LoadScript + this.elements.modalIframe + ('<script>' + iframeScript + '</script>'));
-      this.cbBody = document.body.insertBefore(this.cbBody, document.body.firstChild);
-      this.cbOverlay = document.body.insertBefore(this.cbOverlay, document.body.firstChild);
+      this.cbBody.querySelector('#frameForm').src = 'data:text/html;charset=utf-8,' + encodeURI('<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">' + loadStyle + ('<style>' + this.elements.formStyle + '</style>') + LoadScript + this.elements.modalIframe + ('<script>var mask = "' + this.options.mask + '"; ' + iframeScript + '</script>'));
     }
   }, {
     key: 'open',
     value: function open() {
-      this.cbBody.style.display = 'block';
-      this.cbOverlay.style.display = 'block';
+      this.cbBody = document.body.insertBefore(this.cbBody, document.body.firstChild);
+      this.cbOverlay = document.body.insertBefore(this.cbOverlay, document.body.firstChild);
     }
   }, {
     key: 'close',
     value: function close() {
-      this.cbBody.style.display = 'none';
-      this.cbOverlay.style.display = 'none';
+      this.cbBody.remove();
+      this.cbOverlay.remove();
     }
   }]);
 

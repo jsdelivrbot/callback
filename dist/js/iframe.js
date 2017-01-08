@@ -8,26 +8,23 @@ HTMLInputElement.prototype.simpleMask = function (mask) {
   field.setAttribute('placeholder', mask);
   mask = mask.split('');
   var stripMask = function stripMask(maskedData) {
-    function isDigit(char) {
-      return (/\d/.test(char)
+    function isDigit(char, index) {
+      return (/\d/.test(char) && mask[index] == '_'
       );
     }
     return maskedData.split('').filter(isDigit);
   };
   var applyMask = function applyMask(data) {
     return mask.map(function (char, index) {
-      if (char != '_' && index != 2) return char;
+      if (char != '_') return char;
       if (data.length == 0) return char;
       return data.shift();
     }).join('');
   };
-  var reapplyMask = function reapplyMask(data) {
-    return applyMask(stripMask(data));
-  };
+
   var smartfocus = function smartfocus(flag) {
     var oldStart = field.selectionStart;
-    var oldEnd = field.selectionEnd;
-    field.value = reapplyMask(field.value);
+    field.value = applyMask(stripMask(field.value));
     if (field.value.indexOf('_') >= 0 && flag) {
       setCursor(field, field.value.indexOf('_'));
     } else if (!flag) {
@@ -50,17 +47,7 @@ HTMLInputElement.prototype.simpleMask = function (mask) {
       e.target.classList.remove('success');
     }
   });
-  field.addEventListener('keydown', function (e) {
-    if (!(e.keyCode >= 48 && e.keyCode <= 57) && e.keyCode !== 8 && e.keyCode !== 46 && !(e.keyCode >= 96 && e.keyCode <= 105) && !(e.keyCode >= 37 && e.keyCode <= 40)) {
-      e.preventDefault();
-    }
-    if (field.value.indexOf('_') < 0) {
-      e.target.classList.add('success');
-    } else {
-      e.target.classList.remove('success');
-    }
-  });
-  field.addEventListener('keyup', function (e) {
+  field.addEventListenerMulti('keydown keyup', function (e) {
     if (e.keyCode == 8 || e.keyCode >= 37 && e.keyCode <= 40) {
       smartfocus(false);
     } else if (e.keyCode >= 48 && e.keyCode <= 57 || e.keyCode >= 96 && e.keyCode <= 105) {
@@ -87,3 +74,24 @@ HTMLInputElement.prototype.simpleMask = function (mask) {
     }
   };
 };
+Object.prototype.addEventListenerMulti = function (s, fn) {
+  var _this = this;
+
+  s.split(' ').forEach(function (e) {
+    return _this.addEventListener(e, fn);
+  });
+};
+
+function sendForm() {
+  var btn = document.querySelector('#send');
+  var phone = document.querySelector('#phone');
+  var name = document.querySelector('#username');
+  // btn.addEventListener('click',()=>{
+  //   var xhr = new XMLHttpRequest();
+  //   xhr.open('POST', 'http://calc.kontidom.qx2.ru/index.php');
+  //   xhr.send({
+  //     "data": 1,
+  //     "type": "BOOK_VIEWED"
+  //   });
+  // })
+}

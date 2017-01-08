@@ -3,7 +3,7 @@
  */
 const defaults = {
   imgClose : 'img/close.png',
-  imgLogo : 'http://localhost:8080/img/logo.png',
+  imgLogo : 'img/logo.png',
   color : {
     first : '#f49a00',
     second : '#fab900',
@@ -15,13 +15,14 @@ const defaults = {
 
 const loadStyle = '<link href="https://cdn.rawgit.com/BrRenat/callback/master/dist/css/ifame.min.css" rel="stylesheet">'
 const LoadScript = '<script src="https://cdn.rawgit.com/BrRenat/callback/master/dist/js/iframe.js"></script>'
-
 const iframeScript = `window.addEventListener("load", function(event) { 
-document.querySelector('#phone').simpleMask('+ 7 (___) ___ - __ - __');
-});`
+                        document.querySelector('#phone').simpleMask(mask);
+                        sendForm();
+                      });`
 
 class CallMe {
   constructor(options) {
+    this.name = 'br_' +  Math.random().toString(36).substring(7);
     this.options = Object.assign({}, defaults, options);
     this.elements = {
       modalClassNames : {
@@ -35,7 +36,8 @@ class CallMe {
       modalBody: '<div class="br-container"><div class="br-content"><iframe class="br-iframe" name="frameForm" id="frameForm" src="" allowfullscreen></iframe></div></div>',
       modalClose : `<button class="br-close"><img src=${this.options.imgClose} alt=""></button>`,
       modalOpen : `<div class="cback-circle fn1"></div><div class="cback-circle fn2"></div><div class="cback-circle cback-circle--phone"><i class='phone-icon'></i></div>`,
-      modalStyle : `.cback-circle {color: ${this.options.color.phone}; background: ${this.options.color.phone};} .br-form__btn {background: ${this.options.color.first}} .br-form__btn:hover {background: ${this.options.color.second}}`,
+      modalStyle : `#${this.name}.cback {${this.options.position}} #${this.name} .cback-circle {color: ${this.options.color.phone}; background: ${this.options.color.phone};}`,
+      formStyle : `.br-form__btn {background: ${this.options.color.first}} .br-form__btn:hover {background: ${this.options.color.second}}`,
       modalIframe : `<div class="br-logo">
 						<img src=${this.options.imgLogo} alt="">
 					</div>
@@ -50,14 +52,14 @@ class CallMe {
 							</div>
 						</form>
 					</div>
-					<button class="br-form__btn">Жду звонка</button>`
+					<button id="send" class="br-form__btn">Жду звонка</button>`
     }
-    this.init()
+    this.init();
   }
   init() {
     this.render();
     this.clickHandler();
-    // this.inputListener();
+    this.open();
   }
   clickHandler() {
     this.cbOpen.addEventListener('click', (e) => {
@@ -75,6 +77,7 @@ class CallMe {
     document.head.appendChild(this.cbStyle);
     this.cbOpen = document.createElement('div');
     this.cbOpen.classList.add(this.elements.modalClassNames.open);
+    this.cbOpen.id = this.name;
     this.cbOpen.innerHTML = this.elements.modalOpen;
     document.body.appendChild(this.cbOpen);
 
@@ -89,16 +92,18 @@ class CallMe {
     this.cbClose.innerHTML = this.elements.modalClose;
     this.cbBody.querySelector('.br-content').appendChild(this.cbClose);
 
-    this.cbBody.querySelector('#frameForm').src = 'data:text/html;charset=utf-8,' + encodeURI('<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">'+ loadStyle + LoadScript + this.elements.modalIframe + `<script>${iframeScript}</script>`);
+    this.cbBody.querySelector('#frameForm').src = 'data:text/html;charset=utf-8,' +
+      encodeURI('<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">'+
+        loadStyle + `<style>${this.elements.formStyle}</style>` +
+        LoadScript + this.elements.modalIframe +
+        `<script>var mask = "${this.options.mask}"; ${iframeScript}</script>`);
+  }
+  open() {
     this.cbBody = document.body.insertBefore(this.cbBody, document.body.firstChild);
     this.cbOverlay = document.body.insertBefore(this.cbOverlay, document.body.firstChild);
   }
-  open() {
-    this.cbBody.style.display = 'block';
-    this.cbOverlay.style.display = 'block';
-  }
   close() {
-    this.cbBody.style.display = 'none';
-    this.cbOverlay.style.display = 'none';
+    this.cbBody.remove();
+    this.cbOverlay.remove();
   }
 }
