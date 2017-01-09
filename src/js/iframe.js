@@ -82,12 +82,12 @@ function sendForm() {
   let btn = document.querySelector('#send');
   let phone = document.querySelector('#phone');
   let name = document.querySelector('#username');
-  // btn.addEventListener('click',()=>{
-  //   var xhr = new XMLHttpRequest();
-  //   xhr.open('POST', 'http://calc.kontidom.qx2.ru/index.php');
-  //   xhr.send({
-  //     "data": 1,
-  //     "type": "BOOK_VIEWED"
-  //   });
-  // })
+  btn.addEventListener('click',()=>{
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://calc.kontidom.qx2.ru/index.php');
+    xhr.send({
+      "data": 1,
+      "type": "BOOK_VIEWED"
+    });
+  })
 }

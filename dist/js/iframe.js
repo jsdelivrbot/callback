@@ -86,12 +86,12 @@ function sendForm() {
   var btn = document.querySelector('#send');
   var phone = document.querySelector('#phone');
   var name = document.querySelector('#username');
-  // btn.addEventListener('click',()=>{
-  //   var xhr = new XMLHttpRequest();
-  //   xhr.open('POST', 'http://calc.kontidom.qx2.ru/index.php');
-  //   xhr.send({
-  //     "data": 1,
-  //     "type": "BOOK_VIEWED"
-  //   });
-  // })
+  btn.addEventListener('click', function () {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://calc.kontidom.qx2.ru/index.php');
+    xhr.send({
+      "data": 1,
+      "type": "BOOK_VIEWED"
+    });
+  });
 }
